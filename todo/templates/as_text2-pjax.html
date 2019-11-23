@@ -1,0 +1,41 @@
+{% include "flash.html" %}
+
+<div class="row">
+<div class="col-sm-12">
+  <h1>{{Title}}</h1>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+  <p id="viewFilter">
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+  <p>Can't find something? Change the view filter to &quot;Truly all, even deleted&quot;.</p>
+</div>
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+  {{Hypertext|safe}}
+</div>
+</div>
+
+<script>
+"use strict";
+$(document).ready(function() {
+
+document.title = "{{Title}} \u2014 {{Brand}}";
+
+document.getElementById("viewFilter").innerHTML = viewFilterHTML(
+    "/todo/text", '{% csrf_token %}', undefined, "{{ViewFilter}}");
+
+pjaxifyForms();
+
+installTooltips();
+
+});
+</script>
