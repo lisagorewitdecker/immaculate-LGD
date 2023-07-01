@@ -51,7 +51,7 @@ Next, forget about Heroku and Django and focus on the original command-line
 interface (as opposed to <https://github.com/chandler37/immaculater-cli> which
 requires the Django server). You'll find it in the `pyatdllib` subdirectory --
 see
-[`pyatdllib/README.md`](https://github.com/chandler37/immaculater/blob/master/pyatdllib/README.md). You
+[`pyatdllib/README.md`](https://github.com/chandler37/immaculater/blob/main/pyatdllib/README.md). You
 will need to run `make pipinstall` inside an activated `virtualenv` (see below)
 before `make test` will pass or the CLI will run. You can use `runme.sh` to
 start the original CLI.
@@ -128,9 +128,9 @@ tested because it's used in production (on Heroku).
 
 ## Heroku Deployment
 
- - `git checkout master`
+ - `git checkout main`
  - `git pull`
- - `git push heroku master`
+ - `git push heroku main`
  - See below about `heroku run python manage.py migrate`, necessary
    only rarely when the database schema changes
 
@@ -141,10 +141,10 @@ cache:
  - `heroku repo:purge_cache -a YOURAPPNAME`
 
 (An advanced technique is to push a topic branch to Heroku, which requires
-pushing it to what the `heroku` remote considers `master`. This will likely
-require a force push later (`-f` forces) to push `master` back. You can do this
+pushing it to what the `heroku` remote considers `main`. This will likely
+require a force push later (`-f` forces) to push `main` back. You can do this
 by (assuming `git status` shows you are on your topic branch) running `git push
--f heroku HEAD:master`.)
+-f heroku HEAD:main`.)
 
 ## Database Migrations
 
@@ -154,16 +154,16 @@ pg:backups:capture --app <YOUR APP NAME>`.
  - Edit the models.
  - `python manage.py makemigrations todo`
  - Test locally with `python manage.py migrate`
- - `git checkout master`
+ - `git checkout main`
  - `git pull`
- - `git checkout origin/master -b migration_branch`
+ - `git checkout origin/main -b migration_branch`
  - `git add <new file>`
  - `git commit`
  - `git push origin migration_branch`
  - Make a pull request and get it merged
- - `git checkout master`
+ - `git checkout main`
  - `git pull`
- - `git push heroku master`
+ - `git push heroku main`
  - `heroku run python manage.py migrate`
 
 You should not need to put your app in maintenance mode via `heroku
@@ -264,14 +264,14 @@ The source code lives at [https://github.com/chandler37/immaculater](https://git
 
 See above for the magical `git clone` incantation and git documentation.
 
-Our practice is never to push directly to `master`. Instead, create a feature
+Our practice is never to push directly to `main`. Instead, create a feature
 branch and push to it (for details on the 'feature branch' idiom see
 https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/). You
 can do a remote commit with the following:
 
- - `git checkout master`
+ - `git checkout main`
  - `git pull`
- - `git checkout origin/master -b your_feature_branch_goes_here`
+ - `git checkout origin/main -b your_feature_branch_goes_here`
  - Make your edits
  - `source venv/bin/activate`
  - `(cd pyatdllib && make test)`
@@ -290,14 +290,14 @@ can do a remote commit with the following:
  - Go to
     [the pull requests page at github](https://github.com/chandler37/immaculater/pulls)
     and choose 'New pull request' to create a request to merge your feature
-    branch into `master`.
+    branch into `main`.
  - Now find a code reviewer and work with your reviewer towards consensus (making
     commits to your feature branch that the pull request will automagically
     incorporate after `git push origin HEAD`). When ready,
     just press the 'Merge' button and let the website do the actual change to
-    `master`. You can then close the source branch on github and delete your
+    `main`. You can then close the source branch on github and delete your
     local branch with
-	`git checkout master && git pull && git branch -d your_feature_branch_goes_here`
+	`git checkout main && git pull && git branch -d your_feature_branch_goes_here`
 
 When done with your feature, ensure all tests pass (`make test`) and run pylint
 (`make pylint` after `pip3 install pylint` (inside an activated virtualenv))
@@ -411,7 +411,7 @@ Wouldn't it be nice if we had the following:
   changes made otherwise (via Alexa, Slack, Discord, the CLI, this django
   classic web architecture web app, the iOS app, or the Android app). Using
   this API requires sending a protobuf from Javascript, so see
-  https://github.com/protocolbuffers/protobuf/tree/master/js
+  https://github.com/protocolbuffers/protobuf/tree/main/js
 - Expanding the setup.py magic built around <https://github.com/chandler37/immaculater-cli>
    into a proper PyPI package listed publicly
 - An iOS app. Google's Flutter framework (which also works for Android) uses
@@ -426,7 +426,7 @@ Wouldn't it be nice if we had the following:
     - See kivy.org which uses python-for-android under the hood, particularly the
       'notes' tutorial app.
         - Dependence: Cython-0.22
-        - Beware of https://www.bountysource.com/issues/7397452-cython-0-22-does-not-compile-master
+        - Beware of https://www.bountysource.com/issues/7397452-cython-0-22-does-not-compile-main
             - Workaround: Replace 'except *' with ''
         - `~/git/kivy/examples/tutorials/notes/final$ buildozer -v android debug`
         - `~/git/kivy/examples/tutorials/notes/final$ buildozer -v android debug deploy run`
