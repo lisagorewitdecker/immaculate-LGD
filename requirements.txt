@@ -18,7 +18,7 @@ idna>=3.7
 ipaddress==1.0.23
 jsonfield==2.0.2
 oauthlib==3.1.0
-protobuf==3.18.3
+protobuf>=4.25.8
 psycopg2-binary==2.8.4
 pycparser==2.19
 PyJWT==2.4.0
