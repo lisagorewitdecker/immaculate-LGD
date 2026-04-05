@@ -15,6 +15,7 @@ import os
 import pipes
 import re
 import six
+import logging
 
 import gflags as flags  # https://code.google.com/p/python-gflags/
 
@@ -1496,7 +1497,10 @@ def api(request):
                          'printed': results['printed'],
                          'view': results['view']})
   except immaculater.Error as error:
-    return JsonResponse({'immaculater_error': six.text_type(error)}, status=422)
+    logging.exception("Error applying batch of commands in api endpoint")
+    return JsonResponse(
+        {'immaculater_error': 'An internal error occurred while processing the request.'},
+        status=422)
 
 
 @never_cache
