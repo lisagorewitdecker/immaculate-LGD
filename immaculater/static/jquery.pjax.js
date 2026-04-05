@@ -200,7 +200,16 @@ function pjax(options) {
   if (containerType !== 'string') {
     throw "expected string value for 'container' option; got " + containerType
   }
-  var context = options.context = $(options.container)
+  // Ensure that the container option is always treated as a CSS selector and
+  // never as HTML. jQuery($string) will interpret strings starting with "<"
+  // as HTML, which can lead to XSS if the value is attacker-controlled.
+  if (/^\s*</.test(options.container)) {
+    throw "invalid value for 'container' option; expected a selector string but got possible HTML"
+  }
+  // Use the DOM's querySelectorAll to resolve the selector without HTML parsing,
+  // then wrap the resulting elements with jQuery.
+  var containerElements = document.querySelectorAll(options.container)
+  var context = options.context = $(containerElements)
   if (!context.length) {
     throw "the container selector '" + options.container + "' did not match anything"
   }
