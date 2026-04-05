@@ -1944,9 +1944,9 @@ def _slackapi(request):
     return HttpResponse("\n".join(results['printed']) if results['printed'] else 'Command succeeded.',
                         content_type="text/plain")
   except immaculater.Error as error:
-    _debug_log('we have an error')
-    return HttpResponse(six.text_type(error), content_type="text/plain")
-
+    logger.exception("Error while applying batch of commands in _slackapi: %s", six.text_type(error))
+    return HttpResponse("An internal error has occurred while processing the command.",
+                        content_type="text/plain")
 
 @never_cache
 @csrf_exempt
