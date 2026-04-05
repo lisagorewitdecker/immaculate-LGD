@@ -17,6 +17,8 @@ import re
 import six
 import logging
 
+logger = logging.getLogger(__name__)
+
 import gflags as flags  # https://code.google.com/p/python-gflags/
 
 from third_party.django_pjax import djpjax
@@ -1832,8 +1834,10 @@ def mergeprotobufs(request):
     try:
       deserialized_latest = pyatdl_pb2.ToDoList.FromString(pbreq.latest.payload)
     except message.Error as e:
-      return JsonResponse({"error": "The given to-do list did not serialize. Hint: %s" % str(e)},  # TODO(chandler37): test
-                          status=409)
+      logger.exception("Failed to deserialize provided to-do list payload")
+      return JsonResponse(
+        {"error": "The given to-do list did not serialize due to invalid format."},  # TODO(chandler37): test
+        status=409)
     if pbreq.previous_sha1_checksum or pbreq.overwrite_instead_of_merge:
       # TODO(chandler37): See comments in _write_database regarding performance optimizations from storing SHA1
       # checksums in the database.
