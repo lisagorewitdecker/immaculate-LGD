@@ -1921,7 +1921,9 @@ def discordapi(request):
                          'printed': results['printed'],
                          'view': results['view']})
   except immaculater.Error as error:
-    return JsonResponse({'immaculater_error': six.text_type(error)}, status=422)
+    logger.exception("Error while applying batch of commands in discordapi: %s", six.text_type(error))
+    return JsonResponse({'immaculater_error': 'An internal error has occurred while processing the command.'},
+                        status=422)
 
 
 def _slackapi(request):
